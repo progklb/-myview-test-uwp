@@ -79,7 +79,7 @@ namespace MyView
             Fade(m_Images[oldImage], -1).ConfigureAwait(false);
             Fade(m_Images[m_CurrentImageIdx], 1).ConfigureAwait(false);
 
-            Debug.WriteLine("Changing to image: {0}", image.ImagePath);
+            Debug.WriteLine("Changing to image: {0}", image != null ? image.ImagePath : "null");
         }
 
         /// <summary>
