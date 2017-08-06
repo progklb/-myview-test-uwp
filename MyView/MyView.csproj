@@ -109,9 +109,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Common\Objects\UnsplashUser.cs" />
     <Compile Include="Source\Common\SlideshowController.cs" />
     <Compile Include="Source\Common\UnsplashAdapter.cs" />
-    <Compile Include="Source\Common\UnsplashImage.cs" />
+    <Compile Include="Source\Common\Objects\UnsplashImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

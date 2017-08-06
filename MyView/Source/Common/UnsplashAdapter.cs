@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Net;
 using System.Net.Http;
+
+using System.IO;
+using System.Windows.Media.Imaging;
+using Windows.Storage.Streams;
 
 namespace MyView.Common
 {
@@ -12,10 +17,11 @@ namespace MyView.Common
 	{
 		#region CONSTANTS
         /// The unique ID of this app 
-		const string CLIENT_ID = "5692dd4b4fe6468ed6adbccf3c531466bc8dd8f51676227b54213ea5bbe64d9e";
+		const string APP_ID = "5692dd4b4fe6468ed6adbccf3c531466bc8dd8f51676227b54213ea5bbe64d9e";
+        const string SECRET = " 9a73c4df2713c2e7577e2b479e9aa9389465114c4b524a6b9de03304f44adbd1";
 
-		const string BASE_API = "http://api.unsplash.com";
-		const string ENDPOINT_RANDOM = "/photos/random";
+        const string BASE_API = "http://api.unsplash.com";
+        const string CLIENT_AUTH = "client_id=" + APP_ID;
 		#endregion
 
 
@@ -26,35 +32,41 @@ namespace MyView.Common
 
 		#region VARIABLES
 		private static UnsplashAdapter m_UnsplashAdapter;
-		#endregion
+        private static HttpClient m_HttpClient = new HttpClient();
+        #endregion
 
 
-		#region PUBLIC API
-        public async Task GetPhotoList()
+        #region PUBLIC API
+        /// <summary>
+        /// Retrieves a random photo from the server.
+        /// Note that a null photo is returned if the call fails.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<UnsplashImage> GetRandomPhoto()
         {
-            var httpClient = new HttpClient();
-            var jsonResponse = await httpClient.GetStringAsync("https://unsplash.it/list");
-            Debug.WriteLine(jsonResponse);
+            var response = await m_HttpClient.GetAsync($"{BASE_API}/photos/random/?{CLIENT_AUTH}");
 
-            /*dynamic list = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonResponse);
-
-            try
-            { 
-                foreach (var item in list)
-                {
-                    Debug.WriteLine(item.filename);
-                }
-            }
-            catch (Exception e)
+            if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("--- Deserialisation object read failure");
-            }*/
+                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+
+                //dynamic photoObject = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonResponse);
+                var photoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<UnsplashImage>(jsonResponse);
+
+                Debug.WriteLine("---" + (string)photoObject.urls.full);
+            }
+            else
+            {
+                Debug.WriteLine("GetRandomPhoto failed: " + response.Content.ReadAsStringAsync().Result);
+            }
+
+            return null;
         }
-		#endregion
+        #endregion
 
 
-		#region HELPERS
-		static UnsplashAdapter GetAdapterInstance()
+        #region HELPERS
+        static UnsplashAdapter GetAdapterInstance()
 		{
 			if (m_UnsplashAdapter == null)
 			{
