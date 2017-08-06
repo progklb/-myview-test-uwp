@@ -55,6 +55,8 @@ namespace MyView
             // Start image provider
             m_Slideshow.Start();
             m_Slideshow.OnImageCycled += OnImageCycled;
+
+            UnsplashAdapter.Instance.GetPhotoList().ConfigureAwait(false);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
