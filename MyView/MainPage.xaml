@@ -8,8 +8,8 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="ImagePrimary" Source="Resources/Temporary/cars.jpg" Stretch="UniformToFill" Opacity="0.5"/>
-        <Image x:Name="ImageSecondary" Opacity="0.5" Source="Resources/Temporary/forests.jpg" Stretch="UniformToFill"/>
-
+        <Rectangle Fill="#FF272727" Stroke="Black"/>
+        <Image x:Name="ImagePrimary" Opacity="0.5" Stretch="UniformToFill" Source="Resources/Temporary/cars.jpg"/>
+        <Image x:Name="ImageSecondary" Opacity="0.5" Stretch="UniformToFill" Source="Resources/Temporary/forests.jpg"/>
     </Grid>
 </Page>
